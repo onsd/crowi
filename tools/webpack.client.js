@@ -5,14 +5,6 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const config = {
   entry: {
-    bundled:       [
-      'jquery',
-      'bootstrap-sass',
-      'inline-attachment/src/inline-attachment.js',
-      'jquery.cookie',
-      './client/thirdparty-js/jquery.selection.js',
-      'babel-polyfill',
-    ],
     app:          path.join(__dirname, '/../client/app.js'),
     crowi:        path.join(__dirname, '/../client/crowi.js'),
     presentation: path.join(__dirname, '/../client/crowi-presentation.js'),
@@ -41,17 +33,18 @@ const config = {
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "bundled",
-      minChunks: Infinity,
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
-    })
   ],
 };
 
+if (!isProduction) {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env':{
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
+  )
+}
 if (isProduction) {
   config.plugins.push(
     new webpack.DefinePlugin({

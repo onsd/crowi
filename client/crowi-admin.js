@@ -1,5 +1,5 @@
-import $ from 'jquery';
 
+/*
 $(function() {
   var UpdatePost = {};
 
@@ -103,3 +103,4 @@ $(function() {
     });
   });
 });
+*/
